@@ -137,7 +137,7 @@
             fetch('https://prod-16.centralindia.logic.azure.com:443/workflows/cd3d9f67669b49da8dad64055eba3ec1/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3MnHcPqDOvsYYUxF3IlOPxpmUtXcpRNYkdjL1yNXSrY', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'object'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ "Cookie" : true })
             })
