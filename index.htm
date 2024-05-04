@@ -104,12 +104,12 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
         }
 
         // Function to set cookie value
-        function setCookie(cname, cvalue, exdays) {
-            var d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            var expires = "expires="+d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
+        function setCookie(cname, cvalue, exminutes) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exminutes * 60 * 1000)); // Convert minutes to milliseconds
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
         // Function to open modal
         function openModal() {
@@ -124,7 +124,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
         // Function to handle accepting cookies
         function acceptCookies() {
             // Set cookie consent to true
-            setCookie("cookieConsent", "true", 365);
+            setCookie("cookieConsent", "true", 1);
             enableLinkedInInsightTag();
             cookieflow();
             // Close modal
@@ -134,7 +134,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
         // Function to handle rejecting cookies
         function rejectCookies() {
             // Set cookie consent to false
-            setCookie("cookieConsent", "false", 365);
+            setCookie("cookieConsent", "false", 1);
             // Close modal
             closeModal();
         }
