@@ -183,12 +183,15 @@
             })(window.lintrk);
         }
 
-        // On page load, check if cookie consent is given
-        window.onload = function() {
-            var consent = getCookie("cookieConsent");
-            if (consent == "true") {
-                enableLinkedInInsightTag(); // enable insight tag
-            }
+      // On page load, check if cookie consent is given
+window.onload = function() {
+    var consent = getCookie("cookieConsent");
+    if (consent !== "true") {
+        openModal(); // Show modal if no consent is given yet
+    } else {
+        enableLinkedInInsightTag(); // enable insight tag
+    }
+
         };
     </script>
 </body>
