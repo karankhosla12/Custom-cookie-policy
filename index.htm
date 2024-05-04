@@ -138,7 +138,31 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
             closeModal();
         }
 
+        // Function to send API data to flow to check for Li_fatID 
+
+        function cookieflow() {
+           
+            fetch('https://prod-16.centralindia.logic.azure.com:443/workflows/cd3d9f67669b49da8dad64055eba3ec1/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3MnHcPqDOvsYYUxF3IlOPxpmUtXcpRNYkdjL1yNXSrY', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    'cookie':true
+                }
+            })
+            .then(response => {
+                // Handle the response
+                console.log('API call successful');
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error calling API:', error);
+            });
+        }
         // Function to submit form and call API
+
+        
         function submitForm() {
             var formData = {
                 name: document.getElementById('name').value,
