@@ -191,14 +191,16 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
   
 
       // On page load, check if cookie consent is given
-window.onload = function() {
-    var consent = getCookie("cookieConsent");
-    if (consent !== "true") {
-        openModal(); // Show modal if no consent is given yet
-    } else {
-        enableLinkedInInsightTag(); // enable insight tag
-    }
-
+      window.onload = function() {
+            var consent = getCookie("cookieConsent");
+            if (consent === "true") {
+                enableLinkedInInsightTag();
+            } else if (consent === "false") {
+                // Handle rejection action
+                // Maybe you want to do something here if cookies are rejected
+            } else {
+                openModal(); // Show modal if no consent is given yet
+            }
         };
       
     </script>
