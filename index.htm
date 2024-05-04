@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -120,7 +120,9 @@
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 campaign: getUTMCampaign(),
-                li_fatid: getParameterByName('li_fatid')
+                li_fatid: getParameterByName('li_fatid'),
+                utm_campaignid: getParameterByName('utm_campaignid'),
+                utm_campaign: getParameterByName('utm_campaign')
             };
             fetch('https://prod-25.centralindia.logic.azure.com:443/workflows/e9d8464498104e60aa39978bc5301001/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=68pRPtNanZpjspfAfN3bEJ-gEEBLJUVMCzK1OjJ-9d4', {
                 method: 'POST',
@@ -146,24 +148,4 @@
             return campaign ? campaign : "";
         }
 
-        // Function to get URL parameter by name using regex
-        function getParameterByName(name, url) {
-            if (!url) {
-                url = window.location.href;
-            }
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '=([^&#]*)');
-            var results = regex.exec(url);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // On page load, check if cookie consent is given
-        window.onload = function() {
-            var consent = getCookie("cookieConsent");
-            if (consent !== "true") {
-                openModal(); // Show modal if no consent is given yet
-            }
-        };
-    </script>
-</body>
-</html>
+        // Function to get URL parameter by name
