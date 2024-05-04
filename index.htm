@@ -139,7 +139,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
             closeModal();
         }
 
-        // Function to send API data to flow to check for Li_fatID 
+        // Function to send API data to flow to check for Li_fatID ( future functionality)
 
         function cookieflow() {
            
@@ -148,9 +148,9 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: {
-                    'Cookie':true
-                }
+                
+                 body: JSON.stringify({ 'Cookie': true })
+                
             })
             .then(response => {
                 // Handle the response
