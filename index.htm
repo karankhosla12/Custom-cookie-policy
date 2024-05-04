@@ -118,7 +118,7 @@ s.parentNode.insertBefore(b, s);})(window.lintrk);
 
             // Encode the location object as JSON and set it as the cookie value
             var locationString = JSON.stringify(location);
-            document.cookie = cname + "=" + locationString + ";" + expires + ";path=/";
+            document.cookie = cname + "=" + locationString + ";" + expires + cvalue + ";path=/";
         }, function(error) {
             console.error('Error getting location:', error);
         });
