@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-    <button onclick="refreshPage()">Refresh Page</button>
+    <p>Welcome to our website! We use cookies to enhance your experience.</p>
 
     <!-- The Modal -->
     <div id="cookieModal" class="modal">
@@ -49,13 +49,19 @@
         </div>
     </div>
 
+    <!-- Form -->
+    <form id="customForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone"><br><br>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
     <!-- JavaScript for modal functionality -->
     <script>
-        // Function to refresh page
-        function refreshPage() {
-            location.reload();
-        }
-
         // Function to get cookie value
         function getCookie(cname) {
             var name = cname + "=";
@@ -95,10 +101,6 @@
         function acceptCookies() {
             // Set cookie consent to true
             setCookie("cookieConsent", "true", 365);
-            // Fire LinkedIn Insight Tag
-            enableLinkedInInsightTag();
-            // Call API
-            callAPI();
             // Close modal
             closeModal();
         }
@@ -111,35 +113,21 @@
             closeModal();
         }
 
-        // Function to enable LinkedIn Insight Tag
-        function enableLinkedInInsightTag() {
-  _linkedin_partner_id = "5775378";
-            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
-            window._linkedin_data_partner_ids.push(_linkedin_partner_id);
-            (function(l) {
-                if (!l) {
-                    window.lintrk = function(a, b) {
-                        window.lintrk.q.push([a, b]);
-                    };
-                    window.lintrk.q = [];
-                }
-                var s = document.getElementsByTagName("script")[0];
-                var b = document.createElement("script");
-                b.type = "text/javascript";
-                b.async = true;
-                b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
-                s.parentNode.insertBefore(b, s);
-            })(window.lintrk);
-        }
-
-        // Function to call the API
-        function callAPI() {
-            fetch('https://prod-16.centralindia.logic.azure.com:443/workflows/cd3d9f67669b49da8dad64055eba3ec1/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=3MnHcPqDOvsYYUxF3IlOPxpmUtXcpRNYkdjL1yNXSrY', {
+        // Function to submit form and call API
+        function submitForm() {
+            var formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                campaign: getUTMCampaign(),
+                li_fatid: getParameterByName('li_fatid')
+            };
+            fetch('https://prod-25.centralindia.logic.azure.com:443/workflows/e9d8464498104e60aa39978bc5301001/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=68pRPtNanZpjspfAfN3bEJ-gEEBLJUVMCzK1OjJ-9d4', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "Cookie" : true })
+                body: JSON.stringify(formData)
             })
             .then(response => {
                 // Handle the response
@@ -151,15 +139,28 @@
             });
         }
 
+        // Function to get URL parameter by name using regex
+        function getUTMCampaign() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var campaign = urlParams.get('utm_campaign');
+            return campaign ? campaign : "";
+        }
+
+        // Function to get URL parameter by name using regex
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '=([^&#]*)');
+            var results = regex.exec(url);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
         // On page load, check if cookie consent is given
         window.onload = function() {
             var consent = getCookie("cookieConsent");
-            if (consent === "true") {
-                enableLinkedInInsightTag();
-            } else if (consent === "false") {
-                // Handle rejection action
-                // Maybe you want to do something here if cookies are rejected
-            } else {
+            if (consent !== "true") {
                 openModal(); // Show modal if no consent is given yet
             }
         };
